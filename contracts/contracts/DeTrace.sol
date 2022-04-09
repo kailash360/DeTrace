@@ -91,6 +91,10 @@ contract DeTrace {
     return array;
   }
 
+  function getProducts() public view returns(Product[] memory){
+    return products;
+  }
+
   function addManufacturer(string memory _name) public payable returns (Manufacturer memory){
     
     require(bytes(manufacturers[msg.sender].name).length == 0 , 'This address is already registered as manufacturer');
