@@ -105,6 +105,63 @@ function ContractContextProvider(props){
                 return {success: false, message: err.message}
             }
         },
+
+        getManufacturerInventory: async(_address)=>{
+            try{
+                if(!state.DeTrace) return {success: true, data:{}}
+    
+                const productIDList = await state.DeTrace.methods.getManufacturerInventory(_address).call()
+    
+                let products = []
+                for await (let id of productIDList){
+                    const product = await state.DeTrace.methods.products(parseInt(id)).call()
+                    products.push(product)
+                }
+    
+                return {success: true, data:{products}}
+            }catch(err){
+                console.log('Error in getting manufacturer inventory: ', err)
+                return {success: false, message: err.message}
+            }
+        },
+
+        getRetailerInventory: async(_address)=>{
+            try{
+                if(!state.DeTrace) return {success: true, data:{}}
+    
+                const productIDList = await state.DeTrace.methods.getRetailerInventory(_address).call()
+    
+                let products = []
+                for await (let id of productIDList){
+                    const product = await state.DeTrace.methods.products(parseInt(id)).call()
+                    products.push(product)
+                }
+    
+                return {success: true, data:{products}}
+            }catch(err){
+                console.log('Error in getting retailer inventory: ', err)
+                return {success: false, message: err.message}
+            }
+        },
+
+        getCustomerInventory: async(_address)=>{
+            try{
+                if(!state.DeTrace) return {success: true, data:{}}
+    
+                const productIDList = await state.DeTrace.methods.getCustomerInventory(_address).call()
+    
+                let products = []
+                for await (let id of productIDList){
+                    const product = await state.DeTrace.methods.products(parseInt(id)).call()
+                    products.push(product)
+                }
+    
+                return {success: true, data:{products}}
+            }catch(err){
+                console.log('Error in getting customer inventory: ', err)
+                return {success: false, message: err.message}
+            }
+        },
         
         addProduct: async(_name, _price, _ipfs_hash)=>{
             try{
