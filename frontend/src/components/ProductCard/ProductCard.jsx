@@ -5,19 +5,14 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import {Link} from 'react-router-dom' 
 
-const productData = {
-        name: 'Chakku',
-        manufaturer: 'manufacturer',
-        price: 120
-}
-
-export default function ProductCard() {
+export default function ProductCard(productData) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
-        alt="green iguana"
+        alt={productData.name}
         height="140"
         image="/static/images/cards/contemplative-reptile.jpg"
       />
@@ -33,8 +28,7 @@ export default function ProductCard() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+        <Button size="small"><Link to={`/products?id=${productData.id}`}>Track Product</Link></Button>
       </CardActions>
     </Card>
   );

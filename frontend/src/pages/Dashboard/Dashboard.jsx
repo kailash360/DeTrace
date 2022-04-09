@@ -14,7 +14,7 @@ const Dashboard = () => {
     <Container>
        <ProfileView name={name} role={role}/>
        <MyProducts />
-       <AddProduct />
+       {role == 'manufacturer' ? <AddProduct />: ''}
     </Container>
   )
 }
