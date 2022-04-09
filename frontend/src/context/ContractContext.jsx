@@ -291,7 +291,7 @@ function ContractContextProvider(props){
             }
         },
 
-        releaseProduct: async(_productId, _recipient)=>{
+        releaseProduct: async(_productId)=>{
             try{
                 if(!state.DeTrace) return {success: true, data: {}}
 
@@ -304,13 +304,39 @@ function ContractContextProvider(props){
 
                 const transactionResponse = await web3.eth.sendTransaction({
                     from: account,
-                    to: _recipient,
+                    to: product.manufacturer,
                     value: product.price
                 })
                                 
                 return {success: true, data: {releaseProductResponse, transactionResponse}}
             }catch(err){
                 console.log(`Error in releasing product :`, err)
+                return {success: false, message: err.message}
+            }
+        },
+
+        buyProduct: async(_productId)=>{
+            try{
+                if(!state.DeTrace) return {success: true, data: {}}
+
+                const product = await state.DeTrace.methods.products(_productId).call()
+                const retailers = await state.DeTrace.methods.Product_Retailers(_productId).call()
+                const currentRetailerAddress = retailers[retailers.length - 1]
+
+                const buyProductResponse = await state.DeTrace.methods.buyProduct(_productId).send({
+                    from: account,
+                    gas: Constants.GAS
+                })
+
+                const transactionResponse = await web3.eth.sendTransaction({
+                    from: account,
+                    to: currentRetailerAddress,
+                    value: product.price
+                })
+                                
+                return {success: true, data: {buyProductResponse, transactionResponse}}
+            }catch(err){
+                console.log(`Error in buying product :`, err)
                 return {success: false, message: err.message}
             }
         }
