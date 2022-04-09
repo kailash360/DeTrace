@@ -62,9 +62,9 @@ const RegisterForm = () => {
               onChange={(e) => { setType(e.target.value) }}
               fullWidth
             >
-              <MenuItem value="Manufacturer">Manufacturer</MenuItem>
-              <MenuItem value="Retailer">Retailer</MenuItem>
-              <MenuItem value="Customer">Customer</MenuItem>
+              <MenuItem value={0}>Manufacturer</MenuItem>
+              <MenuItem value={1}>Retailer</MenuItem>
+              <MenuItem value={2}>Customer</MenuItem>
             </Select>
 
           </Grid>

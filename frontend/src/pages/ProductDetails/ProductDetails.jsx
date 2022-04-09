@@ -1,56 +1,75 @@
 import React from 'react'
-import {Container, Grid} from '@mui/material'
-import {AuthContext} from '../../context/AuthContext'
-import {ContractContext} from '../../context/ContractContext'
-import {useParams} from 'react-router-dom'
+import { Container, Grid, Paper } from '@mui/material'
+import { AuthContext } from '../../context/AuthContext'
+import { ContractContext } from '../../context/ContractContext'
+import { useParams } from 'react-router-dom'
+import Constants from '../../Constants'
 
 const ProductDetails = () => {
-  
+
   const params = useParams()
   const { Services } = React.useContext(ContractContext)
   const { account } = React.useContext(AuthContext)
   const [product, setProduct] = React.useState({})
-
-  const getProductDetails = async() =>{
+  const [stage, setStage] = React.useState(Constants.ROLE[0])
+  console.log(product);
+  const getProductDetails = async () => {
     const productResponse = await Services.getProduct(params.product_id)
-    console.log({productResponse})
+    console.log({ productResponse })
     setProduct(productResponse.data)
+    setStage(Constants.STAGE[productResponse.data.details.stage]);
   }
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     getProductDetails()
-  },[account])
-  
+  }, [account])
+
   return (product.details ?
     <Container>
-      <Grid container>
-        <Grid item md={4} sm={12}>
-          <img src={`https://ipfs.io/ipfs/${product.details.ipfs_hash}`} style={{width:'400px'}} />
+      <Grid spacing={6} container justifyContent='center' alignItems='center' sx={{ m: 10 }}>
+        <Grid item md={4} sm={6} justifyContent='center'>
+          <Paper elevation={4}>
+            <img src={`https://ipfs.io/ipfs/${product.details.ipfs_hash}`} style={{ width: '400px' }} />
+          </Paper>
         </Grid>
-        <Grid item md={8} sm={12}>
-          <p>ProductDetails</p>
-          <p>{product.details.name}</p>
-          <p>{product.details.price}</p>
-        </Grid>
+        {/* <Grid item md={8} sm={12}>
+          <Paper elevation={4}> */}
+            <Grid container md={8} sm={12} justifyContent='center'>
+              <Grid item md={8} sm={12}>
+                <h1>Product Details</h1>
+                <p><b>Product Name:</b> {product.details.name}</p>
+                <p><b>Price:</b> {product.details.price}</p>
+                <p><b>Stage:</b> {Constants.STAGE[product.details.stage].charAt(0).toUpperCase() + Constants.STAGE[product.details.stage].slice(1)}</p>
+              </Grid>
+              <Grid item md={8} sm={12}>
+                <h1>Manufacturer</h1>
+                <p><b>Name:</b> {product.manufacturer.name}</p>
+                <p><b>Address:</b> {product.manufacturer.id}</p>
+              </Grid>
+              {
+                stage == Constants.ROLE[1] ?
+                  <Grid item md={8} sm={12}>
+                    <h1>Retailers</h1>
+                    {product.retailers.map(product => <li>
+                      <p><b>Name:</b> {product.manufacturer.name}</p>
+                      <p><b>Address:</b> {product.manufacturer.id}</p>
+                    </li>
+                    )}
+                  </Grid>
+                  : ''}
+              {
+                stage == Constants.ROLE[1] ?
+                  <Grid item md={8} sm={12}>
+                    <h1>Customer</h1>
+                    <p><b>Name:</b> {product.customer.name}</p>
+                    <p><b>Address:</b> {product.customer.id}</p>
+                  </Grid>
+                  : ''
+              }
+            </Grid>
+          {/* </Paper>
+        </Grid> */}
       </Grid>
-      <Container>
-        <h3>Manufacturer</h3>
-        <p>Name: {product.manufacturer.name}</p>
-        <p>Address: {product.manufacturer.id}</p>
-      </Container>
-      <Container>
-        <h3>Retailers</h3>
-        {product.retailers.map(product => <li>
-          <p>Name: {product.manufacturer.name}</p>
-          <p>Address: {product.manufacturer.id}</p>
-          </li>  
-        )}
-      </Container>
-      <Container>
-        <h3>Customer</h3>
-        <p>Name: {product.customer.name}</p>
-        <p>Address: {product.customer.id}</p>
-      </Container>
 
     </Container>
     : <p>Loading...</p>
