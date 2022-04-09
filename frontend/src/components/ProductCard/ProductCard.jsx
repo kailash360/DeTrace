@@ -5,16 +5,21 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import {Link} from 'react-router-dom' 
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext';
 
-export default function ProductCard(productData) {
+export default function ProductCard({productData}) {
+
+  const navigate = useNavigate()
+  const { role } = React.useContext(AuthContext)
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
         component="img"
         alt={productData.name}
         height="140"
-        image="/static/images/cards/contemplative-reptile.jpg"
+        image={`https://ipfs.io/ipfs/${productData.ipfs_hash}`}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -28,7 +33,7 @@ export default function ProductCard(productData) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small"><Link to={`/products?id=${productData.id}`}>Track Product</Link></Button>
+        <Button size="small" onClick={(e)=>{navigate(`/${role}/products/${productData.id}`,{replace:true})}} >Track Product</Button>
       </CardActions>
     </Card>
   );
