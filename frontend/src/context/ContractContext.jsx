@@ -230,7 +230,25 @@ function ContractContextProvider(props){
                 console.log('Error in getting user type: ', err)
                 return {success: false, message: err.message}
             }
-        }        
+        },
+        
+        getProductHistory: async(_productId)=>{
+            try{
+                if(!state.DeTrace) return {success: true, data: {}}
+
+                const allEvents = await state.DeTrace.getPastEvents('allEvents',{
+                    fromBlock: 0,
+                    toBlock: 'latest'
+                })
+
+                const history = allEvents.map(event => event.returnValues._productId == toString(_productId))
+                return {success: true, data: { history }}
+
+            }catch(err){
+                console.log('Error in getting product history: ', err)
+                return {success: false, message: err.message}
+            }
+        }
     }
 
     React.useEffect(() => {
