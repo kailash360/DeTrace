@@ -6,6 +6,11 @@ const Constants = {
         1: 'retailer',
         2: 'customer',
         3: 'not_registered'
+    },
+    STAGE: {
+        0: 'manufactured',
+        1: 'released',
+        2: 'sold'
     }
 }
 

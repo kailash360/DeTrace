@@ -248,6 +248,32 @@ function ContractContextProvider(props){
                 console.log('Error in getting product history: ', err)
                 return {success: false, message: err.message}
             }
+        },
+
+        getAllProducts: async () => {
+            try{
+                if(!state.DeTrace) return {success: true, data: {}}
+                const products = await state.DeTrace.methods.getProducts().call()
+                return {success: true, data:{products}}
+
+            }catch(err){
+                console.log('Error in getting all products: ', err)
+                return {success: false, message: err.message}
+            }
+        },
+
+        getProductsOfStage: async (_stage) => {
+            try{
+                if(!state.DeTrace) return {success: true, data: {}}
+                const allProducts = await state.DeTrace.methods.getProducts().call()
+
+                const products = allProducts.map(product => product.stage == _stage)
+                return {success: true, data:{products}}
+
+            }catch(err){
+                console.log('Error in getting all products: ', err)
+                return {success: false, message: err.message}
+            }
         }
     }
 
