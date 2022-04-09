@@ -12,32 +12,15 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {Link} from 'react-router-dom'
+import {AuthContext} from '../../context/AuthContext'
 
-const navLinks = [
-    {
-        nav: 'Home',
-        route: '/'
-    },
-    {
-        nav: 'Dashboard',
-        route: '/dashboard'
-    },
-    {
-        nav: 'Products',
-        route: '/products'
-    },
-    {
-        nav: 'Inventory',
-        route: '/inventory'
-    },
-    {
-        nav: 'My Purchases',
-        route: '/purchases'
-    },
-]
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
+
+  const {role} = React.useContext(AuthContext)
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -55,6 +38,29 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const navLinks = [
+    {
+        nav: 'Home',
+        route: '/'
+    },
+    {
+        nav: 'Dashboard',
+        route: `/${role}/dashboard`
+    },
+    {
+        nav: 'Products',
+        route: `/${role}/products`
+    },
+    {
+        nav: 'Inventory',
+        route: `/${role}/inventory`
+    },
+    {
+        nav: 'My Purchases',
+        route: `/${role}/purchases`
+    },
+  ]
 
   return (
     <AppBar position="static">

@@ -253,7 +253,40 @@ function ContractContextProvider(props){
             if(!account) return
             const userTypeResponse = await Services.getUserType(account)
             if(userTypeResponse.success && userTypeResponse.data.type != Constants.ROLE[3]){
-                updateAuth({authenticated: true, account, role: userTypeResponse.data.type})
+    
+                let userResponse;
+                switch(userTypeResponse.data.type){
+                    case Constants.ROLE[0]:
+                        userResponse = await Services.getManufacturer(account)
+                        updateAuth({
+                            authenticated: true,
+                            name: userResponse.data.manufacturer.name,
+                            account: account,
+                            role: userTypeResponse.data.type
+                        })
+                        break;
+                    case Constants.ROLE[1]:
+                        userResponse = await Services.getRetailer(account)
+                        updateAuth({
+                            authenticated: true,
+                            name: userResponse.data.retailer.name,
+                            account: account,
+                            role: userTypeResponse.data.type
+                        })
+                        break;
+                    case Constants.ROLE[2]:
+                        userResponse = await Services.getCustomer(account)
+                        updateAuth({
+                            authenticated: true,
+                            name: userResponse.data.customer.name,
+                            account: account,
+                            role: userTypeResponse.data.type
+                        })
+                        break;
+                    default:
+                        if(window.location.pathname !== "/") window.location.href = "/"
+                        
+                }
             }else{
                 if(window.location.pathname !== "/") window.location.href = "/"
             }

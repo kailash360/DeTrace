@@ -1,15 +1,10 @@
 import React from 'react'
 
-const profile = {
-        name: 'Robin',
-        role: 'Manufacterer'
-}
-
-const ProfileView = () => {
+const ProfileView = ({name, role}) => {
   return (
     <div>
-        <div>NAME: {profile.name}</div>
-        <div>ROLE: {profile.role}</div>
+        <div>NAME: {name}</div>
+        <div>ROLE: {role}</div>
     </div>
   )
 }
