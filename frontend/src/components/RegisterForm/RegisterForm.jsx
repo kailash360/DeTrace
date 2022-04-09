@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { FormControl, InputLabel, Input, Select, MenuItem, FormHelperText } from '@mui/material'
+import { FormControl, TextField, InputLabel, Input, Select, MenuItem, FormHelperText } from '@mui/material'
 
 const RegisterForm = () => {
 
@@ -10,12 +10,11 @@ const RegisterForm = () => {
     return (
         <div>
             <FormControl>
-                <InputLabel htmlFor="my-input">User Name</InputLabel>
-                <Input id="my-input" aria-describedby="my-helper-text" />
-                <InputLabel id="demo-simple-select-label">I'm a</InputLabel>
+                <TextField label={'UserName'} id="margin-none" />
+                <InputLabel id="userType">I'm a</InputLabel>
                 <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId="userType"
+                    id="userType"
                     // value={}
                     label="Age"
                     // onChange={}
@@ -24,7 +23,6 @@ const RegisterForm = () => {
                     <MenuItem value='Retailer'>Retailer</MenuItem>
                     <MenuItem value='Customer'>Customer</MenuItem>
                 </Select>
-                <FormHelperText id="my-helper-text">We'll never share your email.</FormHelperText>
             </FormControl>
         </div>
     )
