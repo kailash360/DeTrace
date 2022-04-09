@@ -187,7 +187,7 @@ function ContractContextProvider(props){
 
                 return {success: true, 
                     data: {
-                        product: productResponse[0],
+                        details: productResponse[0],
                         retailers: productResponse[1],
                         manufacturer: productResponse[2],
                         customer: productResponse[3]
