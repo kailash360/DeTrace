@@ -10,6 +10,9 @@ const theme = {
             light: deepOrange[100]
 
         },
+        lightOrange: {
+            main: deepOrange[400]
+        },
         white: {
             main: grey[100]
         }

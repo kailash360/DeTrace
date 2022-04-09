@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Grid, Paper } from '@mui/material'
+import { Button, Container, Grid, Paper } from '@mui/material'
 import { AuthContext } from '../../context/AuthContext'
 import { ContractContext } from '../../context/ContractContext'
 import { useParams } from 'react-router-dom'
@@ -20,6 +20,10 @@ const ProductDetails = () => {
     setStage(Constants.STAGE[productResponse.data.details.stage]);
   }
 
+  const handleBuy = () => {
+
+  }
+
   React.useEffect(() => {
     getProductDetails()
   }, [account])
@@ -32,8 +36,6 @@ const ProductDetails = () => {
             <img src={`https://ipfs.io/ipfs/${product.details.ipfs_hash}`} style={{ width: '400px' }} />
           </Paper>
         </Grid>
-        {/* <Grid item md={8} sm={12}>
-          <Paper elevation={4}> */}
             <Grid container md={8} sm={12} justifyContent='center'>
               <Grid item md={8} sm={12}>
                 <h1>Product Details</h1>
@@ -67,10 +69,10 @@ const ProductDetails = () => {
                   : ''
               }
             </Grid>
-          {/* </Paper>
-        </Grid> */}
+            <Grid item>
+              <Button variant='contained' color="lightOrange" onClick={handleBuy}>Buy Product</Button>
+            </Grid>
       </Grid>
-
     </Container>
     : <p>Loading...</p>
   )
