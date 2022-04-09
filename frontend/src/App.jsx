@@ -12,25 +12,31 @@ import {
 import Inventory from './pages/Inventory/Inventory'
 import AuthContextProvider from './context/AuthContext'
 import ContractContextProvider from './context/ContractContext'
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import theme from './utils/theme'
+
+const customTheme = createTheme(theme);
 
 function App() {
 
   return (
     <div className="App">
-      <AuthContextProvider>
-        <ContractContextProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Layout><Home /></Layout>} />
-              <Route path="/:role/dashboard" element={<Layout><Dashboard /></Layout>} />
-              <Route path="/:role/products" element={<Layout><ProductSearch /></Layout>} />
-              <Route path="/:role/inventory" element={<Layout><Inventory /></Layout>} />
-              <Route path="/:role/products/:product_id" element={<Layout><ProductDetails /></Layout>} />
-              <Route path="/:role/purchases" element={<Layout><MyPurchases /></Layout>} />
-            </Routes>
-          </BrowserRouter>
-        </ContractContextProvider>
-      </AuthContextProvider>
+      <ThemeProvider theme={customTheme}>
+        <AuthContextProvider>
+          <ContractContextProvider>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Layout><Home /></Layout>} />
+                <Route path="/:role/dashboard" element={<Layout><Dashboard /></Layout>} />
+                <Route path="/:role/products" element={<Layout><ProductSearch /></Layout>} />
+                <Route path="/:role/inventory" element={<Layout><Inventory /></Layout>} />
+                <Route path="/:role/products/:product_id" element={<Layout><ProductDetails /></Layout>} />
+                <Route path="/:role/purchases" element={<Layout><MyPurchases /></Layout>} />
+              </Routes>
+            </BrowserRouter>
+          </ContractContextProvider>
+        </AuthContextProvider>
+      </ThemeProvider>
     </div>
   )
 }
