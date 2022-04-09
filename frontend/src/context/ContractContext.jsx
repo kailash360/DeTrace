@@ -253,7 +253,7 @@ function ContractContextProvider(props){
             if(!account) return
             const userTypeResponse = await Services.getUserType(account)
             if(userTypeResponse.success && userTypeResponse.data.type != Constants.ROLE[3]){
-                updateAuth({account, role: userTypeResponse.data.type})
+                updateAuth({authenticated: true, account, role: userTypeResponse.data.type})
             }else{
                 if(window.location.pathname !== "/") window.location.href = "/"
             }

@@ -1,34 +1,72 @@
 import React, { useState } from 'react'
-import { FormControl, Button, TextField, InputLabel, Input, Select, MenuItem, FormHelperText } from '@mui/material'
+import { FormControl, TextField, InputLabel, Input, Select, MenuItem, FormHelperText, Button } from '@mui/material'
+import { AuthContext } from '../../context/AuthContext'
+import { ContractContext } from '../../context/ContractContext'
+import {useNavigate} from 'react-router-dom'
+import Constants from '../../Constants'
 
 const RegisterForm = () => {
 
-    const [userType, setUserType] = React.useState('');
+  const { updateAuth, account } = React.useContext(AuthContext)
+  const { Services } = React.useContext(ContractContext)
+  const navigate = useNavigate()
 
-    const handleChange = (event) => {
-        setUserType(event.target.value);
-    };
-    return (
-        <div>
-            <FormControl margin="dense">
-                <InputLabel id="userType">I'm a</InputLabel>
-                <Select
-                    labelId="userType"
-                    id="userType"
-                    value={userType}
-                    label="userType"
-                    onChange={handleChange}
-                >
-                    <MenuItem value='Manufacturer'>Manufacturer</MenuItem>
-                    <MenuItem value='Retailer'>Retailer</MenuItem>
-                    <MenuItem value='Customer'>Customer</MenuItem>
-                </Select>
-                <TextField label={'UserName'} margin="dense" />
+  const [type, setType] = useState(2)
+  const [name, setName] = useState('')
 
-                <Button type="submit" variant="contained">Register</Button>
-            </FormControl>
-        </div>
-    )
+  console.log(account)
+  const handleRegister = async (_name, _type) => {
+    console.log({_name, _type})
+    try{
+      let registrationResponse;
+      switch(_type){
+        case 0:
+          registrationResponse = await Services.registerManufacturer(_name)
+          break;
+        case 1:
+          registrationResponse = await Services.registerRetailer(_name)
+          break;
+        case 2:
+          registrationResponse = await Services.registerCustomer(_name)
+          break;
+      }
+  
+      console.log(registrationResponse);
+  
+      if(registrationResponse.success) {
+        updateAuth({
+          authenticated: true,
+          name: registrationResponse.data.name,
+          role: Constants.ROLE[_type]
+        })
+        navigate(`/${Constants.ROLE[_type]}/dashboard`)
+      }
+
+    }catch(err) {
+      console.log("Error in registering: ", err)
+    }
+  }
+
+  return (
+    <div>
+      <FormControl>
+        <TextField label={'UserName'} id="margin-none" value={name} onChange={(e)=>{setName(e.target.value)}} />
+        <InputLabel id="userType">I'm a</InputLabel>
+        <Select
+          labelId="userType"
+          id="userType"
+          label="Role"
+          value={type}
+          onChange={(e)=>{setType(e.target.value)}}
+        >
+          <MenuItem value={0}>Manufacturer</MenuItem>
+          <MenuItem value={1}>Retailer</MenuItem>
+          <MenuItem value={2}>Customer</MenuItem>
+        </Select>
+        <Button variant='outlined' type='button' onClick={() => {handleRegister(name, type)}}>Register</Button>
+      </FormControl>
+    </div>
+  )
 }
 
 export default RegisterForm
