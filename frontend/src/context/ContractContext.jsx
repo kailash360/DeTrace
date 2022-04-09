@@ -84,7 +84,7 @@ function ContractContextProvider(props){
             try{
                 if(!state.DeTrace) return {success: true, data: {}}
 
-                const retailer = await state.DeTrace.methods.getRetailDetails(_address).call()
+                const retailer = await state.DeTrace.methods.getRetailerDetails(_address).call()
                 return {success: true, data: {retailer}}
 
             }catch(err){
@@ -271,7 +271,21 @@ function ContractContextProvider(props){
                 return {success: true, data:{products}}
 
             }catch(err){
-                console.log('Error in getting all products: ', err)
+                console.log(`Error in getting products of stage ${_stage}: `, err)
+                return {success: false, message: err.message}
+            }
+        },
+
+        getProductsOfName: async (_name) => {
+            try{
+                if(!state.DeTrace) return {success: true, data: {}}
+                const allProducts = await state.DeTrace.methods.getProducts().call()
+
+                const products = allProducts.map(product => product.name == _name)
+                return {success: true, data:{products}}
+
+            }catch(err){
+                console.log(`Error in getting products of name ${_name}: `, err)
                 return {success: false, message: err.message}
             }
         }
