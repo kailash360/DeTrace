@@ -3,10 +3,12 @@ import { FormControl, Input, InputLabel, Button, TextField } from '@mui/material
 import UploadIcon from '@mui/icons-material/Upload';
 import * as IPFS from 'ipfs-core'
 import {ContractContext} from '../../context/ContractContext'
+import {AuthContext} from '../../context/AuthContext'
 import {useNavigate} from 'react-router-dom'
 
 const AddProduct = () => {
 
+    const {role} = React.useContext(AuthContext)
     const {Services} = React.useContext(ContractContext)
     const navigate = useNavigate()
 
@@ -17,20 +19,19 @@ const AddProduct = () => {
     const handleUpload = async () => {
 
         try{
-            const node = await IPFS.create({repo:'../../bin/ok'+Math.random()})
+
+            console.log('Uploading image')
+            const node = await IPFS.create({repo:'ok'+Math.random()})
             const ipfsUploadResult = await node.add(image)
 
-            const addProductResponse = await Services.addProduct(name, price, ipfsUploadResult.path)
+            const addProductResponse = await Services.addProduct(name, price, ipfsUploadResult?.path || 'none')
             if(!addProductResponse.success) throw new Error(addProductResponse.message)
 
-            navigate(`/products?id=${addProductResponse.data.product.id}`)
+            navigate(`/${role}/products/${addProductResponse.data.product.events.Product_Added.returnValues.id}`)
             
         }catch(err){
             console.log('Error in adding product: ', err)
         }
-
-
-
     }
 
     return (
@@ -40,7 +41,7 @@ const AddProduct = () => {
             <Button variant="contained" endIcon={<UploadIcon />}>
                 Upload Image<input type="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
             </Button>
-            <Button variant="contained" type="submit" onSubmit={handleUpload}>Add Product</Button>
+            <Button variant="contained" type="submit" onClick={handleUpload}>Add Product</Button>
         </FormControl>
     )
 }
