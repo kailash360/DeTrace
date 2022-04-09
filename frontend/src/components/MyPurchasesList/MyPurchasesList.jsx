@@ -1,5 +1,6 @@
-import * as React from 'react';
+import React from 'react'
 import ProductListTemplate from '../ProductListTemplate/ProductListTemplate';
+
 
 const productList = [
     {
@@ -44,11 +45,10 @@ const productList = [
     },
 ]
 
-const MyProducts = () => {
-
+const MyPurchasesList = () => {
   return (
-    <ProductListTemplate title={'My Products'} productList={productList} />
+    <ProductListTemplate title={'My Purchases'} productList={productList} />
   )
 }
 
-export default MyProducts
+export default MyPurchasesList

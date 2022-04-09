@@ -1,9 +1,10 @@
 import { Container } from '@mui/material'
 import React from 'react'
+import InventoryList from '../../components/InventoryList/InventoryList'
 
 const Inventory = () => {
   return (
-    <Container>Inventory</Container>
+    <Container><InventoryList/></Container>
   )
 }
 

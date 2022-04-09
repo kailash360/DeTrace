@@ -44,11 +44,10 @@ const productList = [
     },
 ]
 
-const MyProducts = () => {
-
+const InventoryList = () => {
   return (
-    <ProductListTemplate title={'My Products'} productList={productList} />
+    <ProductListTemplate title={'Inventory'} productList={productList} />
   )
 }
 
-export default MyProducts
+export default InventoryList

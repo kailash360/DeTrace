@@ -1,7 +1,7 @@
 import React from 'react'
 
 const profile = {
-        name: '',
+        name: 'Robin',
         role: 'Manufacterer'
 }
 

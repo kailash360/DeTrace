@@ -248,9 +248,9 @@ function ContractContextProvider(props){
     },[])
 
     React.useEffect(()=>{
-        if(!account) return
         
         (async() => {
+            if(!account) return
             const userTypeResponse = await Services.getUserType(account)
             if(userTypeResponse.success && userTypeResponse.data.type != Constants.ROLE[3]){
                 updateAuth({account, role: userTypeResponse.data.type})
