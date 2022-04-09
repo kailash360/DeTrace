@@ -1,8 +1,9 @@
+import { Container } from '@mui/material'
 import React from 'react'
 
 const Inventory = () => {
   return (
-    <div>Inventory</div>
+    <Container>Inventory</Container>
   )
 }
 

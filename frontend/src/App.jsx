@@ -21,12 +21,12 @@ function App() {
         <ContractContextProvider>
           <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout><Home /></Layout>} />
-                <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-                <Route path="/products" element={<Layout><ProductSearch /></Layout>} />
-                <Route path="/inventory" element={<Layout><Inventory /></Layout>} />
-                <Route path="/products/:product_id" element={<Layout><ProductDetails /></Layout>} />
-                <Route path="/purchases" element={<Layout><MyPurchases /></Layout>} />
+              <Route path="/" element={<Layout><Home /></Layout>} />
+              <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
+              <Route path="/products" element={<Layout><ProductSearch /></Layout>} />
+              <Route path="/inventory" element={<Layout><Inventory /></Layout>} />
+              <Route path="/products/:product_id" element={<Layout><ProductDetails /></Layout>} />
+              <Route path="/purchases" element={<Layout><MyPurchases /></Layout>} />
             </Routes>
           </BrowserRouter>
         </ContractContextProvider>

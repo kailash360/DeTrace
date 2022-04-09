@@ -1,9 +1,12 @@
+import { Container } from '@mui/material'
 import React from 'react'
 import RegisterForm from '../../components/RegisterForm/RegisterForm'
 
 const Home = () => {
   return (
-    <RegisterForm/>
+    <Container>
+      <RegisterForm />
+    </Container>
   )
 }
 
