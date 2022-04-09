@@ -30,16 +30,19 @@ contract DeTrace {
   struct Manufacturer{
     address id;
     string name;
+    uint total_products;
   }
 
   struct Retailer{
     address id;
     string name;
+    uint total_products;
   }
 
   struct Customer{
     address id;
     string name;
+    uint total_orders;
   }
 
   uint256 public total_products;
@@ -48,6 +51,10 @@ contract DeTrace {
   mapping(address => Retailer) public retailers;
   mapping(address => Customer) public customers;
   mapping(uint => address[]) public Product_Retailers;
+
+  mapping(address=>uint[]) public manufacturer_inventory;
+  mapping(address=>uint[]) public retailer_inventory;
+  mapping(address=>uint[]) public customer_orders;
 
   address[] address_array;
 
@@ -76,6 +83,14 @@ contract DeTrace {
     _;
   }
 
+  function removeElement(uint index, uint[] storage array) internal returns(uint[] storage){
+    for (uint i = index; i<array.length-1; i++){
+      array[i] = array[i+1];
+    }
+    array.pop();
+    return array;
+  }
+
   function addManufacturer(string memory _name) public payable returns (Manufacturer memory){
     
     require(bytes(manufacturers[msg.sender].name).length == 0 , 'This address is already registered as manufacturer');
@@ -83,6 +98,7 @@ contract DeTrace {
     Manufacturer memory _manufacturer;
     _manufacturer.id = msg.sender;
     _manufacturer.name = _name;
+    _manufacturer.total_products = 0;
 
     manufacturers[msg.sender] = _manufacturer;
 
@@ -96,6 +112,7 @@ contract DeTrace {
     Retailer memory _retailer;
     _retailer.id = msg.sender;
     _retailer.name = _name;
+    _retailer.total_products = 0;
 
     retailers[msg.sender] = _retailer;
 
@@ -132,9 +149,14 @@ contract DeTrace {
     _product.stage = Stage.manufactured;
     _product.total_retailers = 0;
 
-    //add the product
+    //add the product to records
     products.push(_product);
     total_products += 1;
+
+    //add the product to the manufacturer inventory records
+    manufacturer_inventory[msg.sender].push(_product.id);
+    _manufacturer.total_products += 1;
+    manufacturers[msg.sender] = _manufacturer;
 
     //Add into proper mappings
     Product_Retailers[_product.id] = address_array;
@@ -158,6 +180,24 @@ contract DeTrace {
     Product_Retailers[_productId].push(msg.sender);
     _product.total_retailers++;
     _product.stage = Stage.released;
+
+    //Remove the element from the inventory of manufacturer and update count
+    Manufacturer memory _manufacturer = manufacturers[_product.manufacturer];
+    for(uint i=0; i<_manufacturer.total_products; i++){
+      if(manufacturer_inventory[_product.manufacturer][i] == _productId ) {
+        manufacturer_inventory[_product.manufacturer] = removeElement(i, manufacturer_inventory[_product.manufacturer]);
+        // delete manufacturer_inventory[_product.manufacturer][i];
+        break;
+      }
+    }
+    _manufacturer.total_products -= 1;
+    manufacturers[_product.manufacturer] = _manufacturer;
+
+    //Add the product to retailer's inventory and update count
+    retailer_inventory[msg.sender].push(_product.id);
+    Retailer memory _retailer = retailers[msg.sender];
+    _retailer.total_products += 1;
+    retailers[msg.sender] = _retailer;
 
     //save the updated product details
     products[_productId] = _product;
@@ -186,6 +226,24 @@ contract DeTrace {
     //Shift ownership from retailer to customer
     _product.stage = Stage.sold;
     _product.customer = _customer.id;
+  
+    //Remove the element from the inventory of retailer and update count
+    address _current_retailer_address = Product_Retailers[_productId][Product_Retailers[_productId].length - 1];
+    Retailer memory _current_retailer = retailers[_current_retailer_address];
+    for(uint i=0; i<_current_retailer.total_products; i++){
+      if(retailer_inventory[_current_retailer_address][i] == _productId){
+        retailer_inventory[_current_retailer_address] = removeElement(i, retailer_inventory[_current_retailer_address]);
+        // delete retailer_inventory[_current_retailer_address][i];
+        break; 
+      }
+    }
+    _current_retailer.total_products -= 1;
+    retailers[_current_retailer_address] = _current_retailer;
+
+    //Add the product to customer's orders and update count
+    customer_orders[msg.sender].push(_product.id);
+    _customer.total_orders += 1;
+    customers[msg.sender] = _customer;
 
     //save the updated product details
     products[_productId] = _product;
@@ -200,14 +258,29 @@ contract DeTrace {
     return _manufacturer;
   }
 
+  function getManufacturerInventory(address _manufacturerId) public view returns(uint[] memory){
+    uint[] memory _product_ids = manufacturer_inventory[_manufacturerId];
+    return _product_ids;
+  }
+
   function getRetailerDetails(address _retailerId) public view returns(Retailer memory){
     Retailer memory _retailer = retailers[_retailerId];
     return _retailer;
   }
 
+  function getRetailerInventory(address _retailerId) public view returns(uint[] memory){   
+    uint[] memory _product_ids = retailer_inventory[_retailerId];
+    return _product_ids;
+  }
+
   function getCustomerDetails(address _customerId) public view returns(Customer memory){
     Customer memory _customer = customers[_customerId];
     return _customer;
+  }
+
+  function getCustomerOrders(address _customerId) public view returns(uint[] memory){
+    uint[] memory _product_ids = customer_orders[_customerId];
+    return _product_ids;
   }
 
   function getProductDetails(uint _productId) public view returns(Product memory, Retailer[] memory, Manufacturer memory, Customer memory){
@@ -273,4 +346,3 @@ contract DeTrace {
     return Role.not_registered;
   }
 }
-
