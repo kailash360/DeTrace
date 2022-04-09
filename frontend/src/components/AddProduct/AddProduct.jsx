@@ -24,10 +24,10 @@ const AddProduct = () => {
             const node = await IPFS.create({repo:'ok'+Math.random()})
             const ipfsUploadResult = await node.add(image)
 
-            const addProductResponse = await Services.addProduct(name, price, ipfsUploadResult?.path || 'none')
+            const addProductResponse = await Services.addProduct(name, parseInt(price), ipfsUploadResult?.path || 'none')
             if(!addProductResponse.success) throw new Error(addProductResponse.message)
-
-            navigate(`/${role}/products/${addProductResponse.data.product.events.Product_Added.returnValues.id}`)
+            console.log(addProductResponse)
+            navigate(`/${role}/products/${parseInt(addProductResponse.data.product.events.Product_Added.returnValues._productId)}`)
             
         }catch(err){
             console.log('Error in adding product: ', err)
