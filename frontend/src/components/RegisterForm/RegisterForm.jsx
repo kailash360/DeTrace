@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { FormControl, TextField, InputLabel, Input, Select, MenuItem, FormHelperText, Button } from '@mui/material'
+import { FormControl, TextField, InputLabel, Input, Select, MenuItem, FormHelperText, Button, Grid } from '@mui/material'
 import { AuthContext } from '../../context/AuthContext'
 import { ContractContext } from '../../context/ContractContext'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Constants from '../../Constants'
+import { styled } from '@mui/material/styles';
 
 const RegisterForm = () => {
 
@@ -16,10 +17,10 @@ const RegisterForm = () => {
 
   console.log(account)
   const handleRegister = async (_name, _type) => {
-    console.log({_name, _type})
-    try{
+    console.log({ _name, _type })
+    try {
       let registrationResponse;
-      switch(_type){
+      switch (_type) {
         case 0:
           registrationResponse = await Services.registerManufacturer(_name)
           break;
@@ -30,10 +31,10 @@ const RegisterForm = () => {
           registrationResponse = await Services.registerCustomer(_name)
           break;
       }
-  
+
       console.log(registrationResponse);
-  
-      if(registrationResponse.success) {
+
+      if (registrationResponse.success) {
         updateAuth({
           authenticated: true,
           name: registrationResponse.data.name,
@@ -42,28 +43,40 @@ const RegisterForm = () => {
         navigate(`/${Constants.ROLE[_type]}/dashboard`)
       }
 
-    }catch(err) {
+    } catch (err) {
       console.log("Error in registering: ", err)
     }
   }
 
+
   return (
     <div>
       <FormControl>
-        <TextField label={'UserName'} id="margin-none" value={name} onChange={(e)=>{setName(e.target.value)}} />
-        <InputLabel id="userType">I'm a</InputLabel>
-        <Select
-          labelId="userType"
-          id="userType"
-          label="Role"
-          value={type}
-          onChange={(e)=>{setType(e.target.value)}}
-        >
-          <MenuItem value={0}>Manufacturer</MenuItem>
-          <MenuItem value={1}>Retailer</MenuItem>
-          <MenuItem value={2}>Customer</MenuItem>
-        </Select>
-        <Button variant='outlined' type='button' onClick={() => {handleRegister(name, type)}}>Register</Button>
+        <Grid container spacing={4}>
+          <Grid item xs={12} fullWidth>
+            <Select
+              labelId="userType"
+              id="userType"
+              label="Role"
+              value={type}
+              onChange={(e) => { setType(e.target.value) }}
+              fullWidth
+            >
+              <MenuItem value="Manufacturer">Manufacturer</MenuItem>
+              <MenuItem value="Retailer">Retailer</MenuItem>
+              <MenuItem value="Customer">Customer</MenuItem>
+            </Select>
+
+          </Grid>
+          <Grid item xs={12} >
+            <InputLabel id="userType">I'm a</InputLabel>
+            <TextField fullWidth label={'UserName'} id="margin-none" value={name} onChange={(e) => { setName(e.target.value) }} />
+
+          </Grid>
+          <Grid item xs={12}>
+            <Button fullWidth variant='outlined' type='button' color="orange" onClick={() => { handleRegister(name, type) }}>Register</Button>
+          </Grid>
+        </Grid>
       </FormControl>
     </div>
   )
