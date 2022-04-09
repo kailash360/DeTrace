@@ -9,7 +9,7 @@ const product = {
 
 
 const AddProduct = () => {
-    const [image, setImage] = useState(second)
+    const [image, setImage] = useState()
     const handleUpload = async () => {
         const node = await IPFS.create({repo:'ok'+Math.random()})
 
