@@ -1,5 +1,6 @@
 import React from 'react';
-import GetContract from '../utils/GetContract'
+import Web3 from 'web3'
+import GetContract, { web3 } from '../utils/GetContract'
 import Connect from '../utils/Connect'
 import Constants from '../Constants'
 import {AuthContext} from '../context/AuthContext'
@@ -286,6 +287,30 @@ function ContractContextProvider(props){
 
             }catch(err){
                 console.log(`Error in getting products of name ${_name}: `, err)
+                return {success: false, message: err.message}
+            }
+        },
+
+        releaseProduct: async(_productId, _recipient)=>{
+            try{
+                if(!state.DeTrace) return {success: true, data: {}}
+
+                const product = await state.DeTrace.methods.products(_productId).call()
+
+                const releaseProductResponse = await state.DeTrace.methods.releaseProduct(_productId).send({
+                    from: account,
+                    gas: Constants.GAS
+                })
+
+                const transactionResponse = await web3.eth.sendTransaction({
+                    from: account,
+                    to: _recipient,
+                    value: product.price
+                })
+                                
+                return {success: true, data: {releaseProductResponse, transactionResponse}}
+            }catch(err){
+                console.log(`Error in releasing product :`, err)
                 return {success: false, message: err.message}
             }
         }
