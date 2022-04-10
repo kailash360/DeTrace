@@ -22,7 +22,7 @@
 ![WhatsApp Image 2022-04-10 at 11 57 47 PM](https://user-images.githubusercontent.com/75155230/162634641-711ab37f-19eb-4bf1-be2f-e6162143aac0.jpeg)
 
 
-### Setting up locally
+### 💻 Setting up locally
 
 - Clone the repository and install dependencies in the client using the following command 
 ```sh
