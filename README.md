@@ -1,4 +1,11 @@
-# DeTrace
+
+<div align="center">
+  <a href="https://github.com/kailash360/DeTrace">
+    <img src="https://user-images.githubusercontent.com/75155230/162634488-a86df851-81ab-41d4-9c15-d1155683a935.png" alt="Logo" width="100" height="100">
+  </a>
+
+  <h1 align="center">DeTrace</h1>
+</div>
 
 **DeTrace** is a decentralized supply chain management system that allows you to efficiently manage the product distribution chain efficiently yet easily. 
 
@@ -8,6 +15,29 @@
 - It also allows the users to commit financial transactions via Ethereum blockchain network. This makes the entire trade and commerce more secure and safe. 
 - The entire process of supply chain management is made digital which makes the operations and logistics run smoothly
 
+### Preview
+
+![WhatsApp Image 2022-04-10 at 11 45 32 PM](https://user-images.githubusercontent.com/75155230/162634628-2b1bc55e-c265-474e-a5bd-d8cf5eb860b9.jpeg)
+
+![WhatsApp Image 2022-04-10 at 11 57 47 PM](https://user-images.githubusercontent.com/75155230/162634641-711ab37f-19eb-4bf1-be2f-e6162143aac0.jpeg)
+
+
+### 💻 Setting up locally
+
+- Clone the repository and install dependencies in the client using the following command 
+```sh
+cd client && npm install --dev
+```
+
+- Compile the contracts and deploy on **Ganache** lcoal testnet
+```sh
+truffle deploy --reset
+```
+
+- Start the client side
+```
+npm start
+```
 
 ### 🛠️ Technology & Tools
 - Solidity
@@ -15,3 +45,8 @@
 - IPFS
 - ReactJS
 - Material UI
+
+
+
+
+
