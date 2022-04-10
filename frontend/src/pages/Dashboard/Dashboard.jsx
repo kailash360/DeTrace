@@ -6,6 +6,7 @@ import {AuthContext} from '../../context/AuthContext'
 import {ContractContext} from '../../context/ContractContext'
 import AddProduct from '../../components/AddProduct/AddProduct'
 import Constants from '../../Constants'
+import DashboardText from '../../components/DashboardText/DashboardText'
 
 const Dashboard = () => {
 
@@ -14,7 +15,7 @@ const Dashboard = () => {
   return (
     <Container>
        <ProfileView name={name} role={role}/>
-       <MyProducts />
+       <DashboardText></DashboardText>
        {role ==  Constants.ROLE[0] ? <AddProduct />: ''}
     </Container>
   )
