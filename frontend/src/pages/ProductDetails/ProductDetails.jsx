@@ -9,6 +9,7 @@ import TimelineFeedItem from '../../components/TimelineFeedItem/TimelineFeedItem
 import Loader from '../../components/Loader/Loader'
 import { styled } from '@mui/material/styles';
 import { CardMedia, Card } from '@mui/material'
+import toast from 'react-hot-toast'
 
 const ProductDetails = () => {
 
@@ -24,33 +25,37 @@ const ProductDetails = () => {
     if (!account) return
 
     const productResponse = await Services.getProduct(params.product_id)
-    console.log({ productResponse })
+    if(!productResponse.success){
+      toast.error(productResponse.message)
+      console.log({ productResponse })
+      return
+    }
     setProduct(productResponse.data)
-    console.log('Setting stage: ', productResponse.data.details.stage)
     setStage(Constants.STAGE[productResponse.data.details.stage]);
   }
 
   const handleBuy = async () => {
 
     if (!product.details) return
-    console.log('Starting buy ', product)
 
     let buyProductResponse;
     switch (Constants.STAGE[product.details.stage]) {
       case Constants.STAGE[0]:
         buyProductResponse = await Services.releaseProduct(params.product_id)
-        console.log({ buyProductResponse })
         break;
       case Constants.STAGE[1]:
         buyProductResponse = await Services.buyProduct(params.product_id)
-        console.log({ buyProductResponse })
         break;
       default:
-        console.log('Invalid stage ')
+        toast.error('Invalid stage ')
     }
-    console.log({ buyProductResponse })
-    if (!buyProductResponse.success) return
+    if (!buyProductResponse.success) {
+      toast.error(buyProductResponse.message)
+      console.log({buyProductResponse})
+      return
+    }
 
+    toast.success(`${product.details.name} bought successfully`)
     navigate(role == Constants.ROLE[2] ? `/${role}/purchases` : `/${role}/inventory`)
   }
 

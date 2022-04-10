@@ -2,6 +2,7 @@ import * as React from 'react';
 import ProductListTemplate from '../ProductListTemplate/ProductListTemplate';
 import {ContractContext} from '../../context/ContractContext'
 import {AuthContext} from '../../context/AuthContext'
+import EmptyInventoryList from '../EmptyListText/EmptyInventoryList/EmptyInventoryList'
 
 const InventoryList = () => {
 
@@ -36,7 +37,7 @@ const InventoryList = () => {
   return (
     products.length ? 
       <ProductListTemplate title={'Inventory'} productList={products} />
-    : <p>No products here</p>
+    : <EmptyInventoryList></EmptyInventoryList>
   )
 }
 

@@ -8,7 +8,7 @@ function Loader() {
       sx={{
         height: '100vh',
         '& svg':{
-          marginTop: '30vh !important'
+          marginTop: '40vh !important'
         }
       }}
     >
