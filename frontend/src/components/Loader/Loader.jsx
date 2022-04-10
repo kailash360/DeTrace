@@ -4,7 +4,14 @@ import {ReactComponent as LoadingIcon} from '../../static/assets/LoadingIcon.svg
 
 function Loader() {
   return (
-    <Container>
+    <Container
+      sx={{
+        height: '100vh',
+        '& svg':{
+          marginTop: '30vh !important'
+        }
+      }}
+    >
         <LoadingIcon></LoadingIcon>
     </Container>
   )
