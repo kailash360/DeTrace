@@ -4,7 +4,10 @@ import { AuthContext } from '../../context/AuthContext'
 import { ContractContext } from '../../context/ContractContext'
 import { useParams } from 'react-router-dom'
 import Constants from '../../Constants'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import TimelineFeedItem from '../../components/TimelineFeedItem/TimelineFeedItem'
+// import Timeline from '@mui/lab/Timeline';
+import Loader from '../../components/Loader/Loader'
 
 const ProductDetails = () => {
 
@@ -18,7 +21,7 @@ const ProductDetails = () => {
 
   const getProductDetails = async () => {
 
-    if(!account) return
+    if (!account) return
 
     const productResponse = await Services.getProduct(params.product_id)
     console.log({ productResponse })
@@ -29,11 +32,11 @@ const ProductDetails = () => {
 
   const handleBuy = async () => {
 
-    if(!product.details) return
+    if (!product.details) return
     console.log('Starting buy ', product)
 
     let buyProductResponse;
-    switch(Constants.STAGE[product.details.stage]){
+    switch (Constants.STAGE[product.details.stage]) {
       case Constants.STAGE[0]:
         buyProductResponse = await Services.releaseProduct(params.product_id)
         console.log({ buyProductResponse })
@@ -41,14 +44,14 @@ const ProductDetails = () => {
       case Constants.STAGE[1]:
         buyProductResponse = await Services.buyProduct(params.product_id)
         console.log({ buyProductResponse })
-        break;    
+        break;
       default:
         console.log('Invalid stage ')
     }
     console.log({ buyProductResponse })
-    if(!buyProductResponse.success) return
+    if (!buyProductResponse.success) return
 
-    navigate(role == Constants.ROLE[2]?`/${role}/purchases`: `/${role}/inventory`)
+    navigate(role == Constants.ROLE[2] ? `/${role}/purchases` : `/${role}/inventory`)
   }
 
   React.useEffect(() => {
@@ -63,46 +66,52 @@ const ProductDetails = () => {
             <img src={`https://ipfs.io/ipfs/${product.details.ipfs_hash}`} style={{ width: '400px' }} />
           </Paper>
         </Grid>
-            <Grid container md={8} sm={12} justifyContent='center'>
+        <Grid item md={8} sm={12}>
+          <h1>Product Details</h1>
+          <p><b>Product Name:</b> {product.details.name}</p>
+          <p><b>Price:</b> {product.details.price}</p>
+          <p><b>Stage:</b> {Constants.STAGE[product.details.stage].charAt(0).toUpperCase() + Constants.STAGE[product.details.stage].slice(1)}</p>
+        </Grid>
+        {/* <Grid container md={12} sm={12} marginLeft={6} justifyContent='flex-start'>
+        
+
+          <Grid item md={8} sm={12}>
+            <h1>Manufacturer</h1>
+            <p><b>Name:</b> {product.manufacturer.name}</p>
+            <p><b>Address:</b> {product.manufacturer.id}</p>
+          </Grid>
+
+          
+          {
+            stage == Constants.STAGE[1] || stage == Constants.STAGE[2] ?
+            // <TimelineFeedItem>
               <Grid item md={8} sm={12}>
-                <h1>Product Details</h1>
-                <p><b>Product Name:</b> {product.details.name}</p>
-                <p><b>Price:</b> {product.details.price}</p>
-                <p><b>Stage:</b> {Constants.STAGE[product.details.stage].charAt(0).toUpperCase() + Constants.STAGE[product.details.stage].slice(1)}</p>
+                <h1>Retailers</h1>
+                {product.retailers.map((retailer, index) =>
+                  <li>{index + 1}
+                    <p><b>Name:</b> {retailer.name}</p>
+                    <p><b>Address:</b> {retailer.id}</p>
+                  </li>
+                )}
               </Grid>
+              :''}
+          {
+            stage == Constants.STAGE[2] ?
               <Grid item md={8} sm={12}>
-                <h1>Manufacturer</h1>
-                <p><b>Name:</b> {product.manufacturer.name}</p>
-                <p><b>Address:</b> {product.manufacturer.id}</p>
+                <h1>Customer</h1>
+                <p><b>Name:</b> {product.customer.name}</p>
+                <p><b>Address:</b> {product.customer.id}</p>
               </Grid>
-              {
-                stage == Constants.STAGE[1] || stage == Constants.STAGE[2]?
-                  <Grid item md={8} sm={12}>
-                    <h1>Retailers</h1>
-                    {product.retailers.map((retailer, index) => 
-                    <li>{index+1}
-                      <p><b>Name:</b> {retailer.name}</p>
-                      <p><b>Address:</b> {retailer.id}</p>
-                    </li>
-                    )}
-                  </Grid>
-                  : ''}
-              {
-                stage == Constants.STAGE[2] ?
-                  <Grid item md={8} sm={12}>
-                    <h1>Customer</h1>
-                    <p><b>Name:</b> {product.customer.name}</p>
-                    <p><b>Address:</b> {product.customer.id}</p>
-                  </Grid>
-                  : ''
-              }
-            </Grid>
-            <Grid item>
-              { product.details.currentOwner.toLowerCase() != account && <Button variant='contained' color="lightOrange" onClick={handleBuy} type='button'>Buy Product</Button>}
-            </Grid>
+              : ''
+          }
+        </Grid> */}
+        <Grid item>
+          {product.details.currentOwner.toLowerCase() != account && <Button variant='contained' color="lightOrange" onClick={handleBuy} type='button'>Buy Product</Button>}
+        </Grid>
       </Grid>
+      <TimelineFeedItem product={product} stage={stage} />
     </Container>
-    : <p>Loading...</p>
+    : <Loader />
   )
 }
 
