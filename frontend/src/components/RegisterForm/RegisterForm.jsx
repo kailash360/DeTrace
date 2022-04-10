@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { FormControl, TextField, InputLabel, Input, Select, MenuItem, FormHelperText, Button, Grid } from '@mui/material'
+import { FormControl, TextField, InputLabel, Input, Select, MenuItem, FormHelperText, Button, Grid, Typography } from '@mui/material'
 import { AuthContext } from '../../context/AuthContext'
 import { ContractContext } from '../../context/ContractContext'
 import { useNavigate } from 'react-router-dom'
 import Constants from '../../Constants'
 import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material'
 
 const RegisterForm = () => {
 
@@ -51,7 +52,10 @@ const RegisterForm = () => {
 
 
   return (
-    <div>
+    <Box sx={{ padding: '80px 40px', borderRadius: '20px', backgroundColor: 'white', maxWidth: '500px' }}>
+      <Typography variant='h3' fontWeight='bold' sx={{ marginBottom: '20px', color: '#ff7043' }}>
+        Let's get started
+      </Typography>
       <FormControl>
         <Grid container spacing={4}>
           <Grid item xs={12} fullWidth>
@@ -79,7 +83,7 @@ const RegisterForm = () => {
           </Grid>
         </Grid>
       </FormControl>
-    </div>
+    </Box>
   )
 }
 

@@ -20,16 +20,16 @@ const Home = () => {
   }, [account, authenticated])
 
   return (
-    <Container>
-      <Grid container spacing={2} justifyContent="center" alignItems="center" margin="auto" width="100%">
-        <Grid item xs={6} >
-          <RegisterForm  />
+    <div >
+      <Grid container sx={{ height: '95vh', width: '100%' }} spacing={2} justifyContent="center" alignItems="center" margin="auto" width="100%">
+        <Grid item xs={6} sx={{ backgroundColor: '#ff7043', height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
+          <RegisterForm />
         </Grid>
-        <Grid item xs={6}>
-          <img src="/register.png" alt="register" style={{ height: "500px", width: "auto" }}/>
+        <Grid item xs={6} sx={{ height: '100%', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <img src="/register.png" alt="register" style={{ height: "700px", width: "auto" }} />
         </Grid>
       </Grid>
-    </Container>
+    </div>
   )
 }
 
