@@ -410,6 +410,8 @@ function ContractContextProvider(props){
         
     }, [account])
 
+    if(window.location.href.includes(Constants.ROLE[3])) window.location.href = '/'
+
     return(
         <ContractContext.Provider
             value={{...state, ...{
