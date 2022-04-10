@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
+import toast from 'react-hot-toast';
 
 const AddProduct = () => {
 
@@ -30,9 +31,11 @@ const AddProduct = () => {
             const addProductResponse = await Services.addProduct(name, parseInt(price), ipfsUploadResult?.path || 'none')
             if (!addProductResponse.success) throw new Error(addProductResponse.message)
             console.log(addProductResponse)
+            toast.success('Product added successfully')
             navigate(`/${role}/products/${parseInt(addProductResponse.data.product.events.Product_Added.returnValues._productId)}`)
 
         } catch (err) {
+            toast.error(err.message)
             console.log('Error in adding product: ', err)
         }
     }

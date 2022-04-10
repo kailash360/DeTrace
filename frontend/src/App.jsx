@@ -14,6 +14,7 @@ import AuthContextProvider from './context/AuthContext'
 import ContractContextProvider from './context/ContractContext'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import theme from './utils/theme'
+import toast, { Toaster } from 'react-hot-toast';
 
 const customTheme = createTheme(theme);
 
@@ -25,6 +26,7 @@ function App() {
         <AuthContextProvider>
           <ContractContextProvider>
             <BrowserRouter>
+              <Toaster />
               <Routes>
                 <Route path="/" element={<Layout><Home /></Layout>} />
                 <Route path="/:role/dashboard" element={<Layout><Dashboard /></Layout>} />
