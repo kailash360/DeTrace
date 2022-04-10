@@ -4,17 +4,19 @@ import ButtonUnstyled from '@mui/base/ButtonUnstyled';
 import { FormControl, Button, TextField, Container } from '@mui/material'
 import { ContractContext } from '../../context/ContractContext'
 import ProductListTemplate from '../ProductListTemplate/ProductListTemplate';
+import { AuthContext } from '../../context/AuthContext'
+import Loader from '../Loader/Loader'
 
 const SearchProduct = () => {
 
     const { Services, DeTrace } = React.useContext(ContractContext)
+    const { role } = React.useContext(AuthContext)
 
     const [productName,setProductName]=useState('')
     const [allProducts, setAllProducts] = useState([])
     const [filteredProducts, setFilteredProducts] = useState([])
 
     function handleChange(event){
-      console.log(event.target.value)
       setProductName(event.target.value)
     }
 
@@ -46,7 +48,7 @@ const SearchProduct = () => {
         </FormControl>
         {(productName?filteredProducts:allProducts)?
           <ProductListTemplate title={productName?`Products with name '${productName}'`: 'All Products'} productList={productName?filteredProducts:allProducts}></ProductListTemplate>
-          : <p>Fetching products...</p> }
+          : <Loader/> }
       </Container>
     )
   }
