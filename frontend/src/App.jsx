@@ -20,6 +20,7 @@ const customTheme = createTheme(theme);
 
 function App() {
 
+  document.title = 'DeTrace'
   return (
     <div className="App">
       <ThemeProvider theme={customTheme}>
