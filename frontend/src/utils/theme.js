@@ -13,10 +13,14 @@ const theme = {
         lightOrange: {
             main: deepOrange[400]
         },
+        superLightOrange: {
+            main: deepOrange[200]
+        },
         lightGrey: {
             main: grey[100]
         }
     },
+    fontFamily: 'Poppins'
 };
 
 export default theme;

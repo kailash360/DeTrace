@@ -11,8 +11,8 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import {Link} from 'react-router-dom'
-import {AuthContext} from '../../context/AuthContext'
+import { Link } from 'react-router-dom'
+import { AuthContext } from '../../context/AuthContext'
 import { styled } from '@mui/material/styles';
 import Constants from '../../Constants'
 
@@ -40,30 +40,31 @@ const ResponsiveAppBar = () => {
 
   const navLinks = [
     {
-        nav: 'Home',
-        route: '/',
-        isAuthenticated: false
-      },
-      {
-        nav: 'Dashboard',
-        route: `/${role}/dashboard`,
-        isAuthenticated: true
-      },
-      {
-        nav: 'Products',
-        route: `/${role}/products`,
-        isAuthenticated: true
-      },
-      {
-        nav: role ==  Constants.ROLE[2] ? 'My Purchases' : 'Inventory',
-        route: role ==  Constants.ROLE[2] ? `/${role}/purchases` : `/${role}/inventory`,
-        isAuthenticated: true
+      nav: 'Home',
+      route: '/',
+      isAuthenticated: false
+    },
+    {
+      nav: 'Dashboard',
+      route: `/${role}/dashboard`,
+      isAuthenticated: true
+    },
+    {
+      nav: 'Products',
+      route: `/${role}/products`,
+      isAuthenticated: true
+    },
+    {
+      nav: role == Constants.ROLE[2] ? 'My Purchases' : 'Inventory',
+      route: role == Constants.ROLE[2] ? `/${role}/purchases` : `/${role}/inventory`,
+      isAuthenticated: true
     }
   ]
 
- const CustomLink = styled(Link)`
-    textDecoration: none;
+  const CustomLink = styled(Link)`
+    textDecoration: none !important;
     color: white;
+    underline: none;
  `
 
   return (
@@ -76,7 +77,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            <Avatar src="/logo.png" alt="logo"/>
+            <Avatar src="/logo.png" alt="logo" />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -121,16 +122,16 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            <Avatar src="/logo.png" alt="logo"/>
+            <Avatar src="/logo.png" alt="logo" />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {navLinks.map((link) => ( link.isAuthenticated == authenticated &&
+            {navLinks.map((link) => (link.isAuthenticated == authenticated &&
               <Button
                 key={link.nav}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                <CustomLink to={link.route} sx={{color: "white"}} underline="none">{link.nav}</CustomLink> 
+                <CustomLink to={link.route} style={{ textDecoration: 'none', transform: 'none', }}>{link.nav}</CustomLink>
               </Button>
             ))}
           </Box>

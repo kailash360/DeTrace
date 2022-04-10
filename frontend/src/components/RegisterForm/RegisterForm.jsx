@@ -40,7 +40,8 @@ const RegisterForm = () => {
           name: registrationResponse.data.name,
           role: Constants.ROLE[_type]
         })
-        navigate(`/${Constants.ROLE[_type]}/dashboard`)
+        // navigate(`/${Constants.ROLE[_type]}/dashboard`)
+        window.location.reload()
       }
 
     } catch (err) {
