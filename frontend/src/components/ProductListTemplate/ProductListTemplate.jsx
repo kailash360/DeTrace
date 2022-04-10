@@ -13,7 +13,7 @@ const ProductListTemplate = ({ title, productList }) => {
       </Typography>
       {
         <ListItem>
-          <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+          <Grid container gap={8} spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
             {productList.map((product, index) => (
               <Grid item xs={2} sm={4} md={4} key={index}>
                 <ProductCard productData={product} />
