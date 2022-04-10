@@ -15,6 +15,13 @@
 - It also allows the users to commit financial transactions via Ethereum blockchain network. This makes the entire trade and commerce more secure and safe. 
 - The entire process of supply chain management is made digital which makes the operations and logistics run smoothly
 
+### Preview
+
+![WhatsApp Image 2022-04-10 at 11 45 32 PM](https://user-images.githubusercontent.com/75155230/162634628-2b1bc55e-c265-474e-a5bd-d8cf5eb860b9.jpeg)
+
+![WhatsApp Image 2022-04-10 at 11 57 47 PM](https://user-images.githubusercontent.com/75155230/162634641-711ab37f-19eb-4bf1-be2f-e6162143aac0.jpeg)
+
+
 ### Setting up locally
 
 - Clone the repository and install dependencies in the client using the following command 
@@ -38,3 +45,8 @@ npm start
 - IPFS
 - ReactJS
 - Material UI
+
+
+
+
+
