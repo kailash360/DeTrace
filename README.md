@@ -1,6 +1,11 @@
 
+<div align="center">
+  <a href="https://github.com/kailash360/DeTrace">
+    <img src="https://user-images.githubusercontent.com/75155230/162634488-a86df851-81ab-41d4-9c15-d1155683a935.png" alt="Logo" width="100" height="100">
+  </a>
 
-# DeTrace
+  <h1 align="center">DeTrace</h1>
+</div>
 
 **DeTrace** is a decentralized supply chain management system that allows you to efficiently manage the product distribution chain efficiently yet easily. 
 
