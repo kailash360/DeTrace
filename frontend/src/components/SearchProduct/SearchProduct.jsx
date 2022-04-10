@@ -8,6 +8,7 @@ import { AuthContext } from '../../context/AuthContext'
 import Loader from '../Loader/Loader'
 import { Box, Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import Constants from '../../Constants';
 
 const SearchProduct = () => {
 
@@ -24,9 +25,21 @@ const SearchProduct = () => {
 
   const getProducts = async () => {
     const allProductsResponse = await Services.getAllProducts()
-    if (!allProductsResponse.success) console.log(allProductsResponse.message)
-
-    setAllProducts(allProductsResponse.data.products)
+    if (!allProductsResponse.success) return
+    let parseProducts;
+    switch (role) {
+      case Constants.ROLE[2]:
+        parseProducts = allProductsResponse.data.products.filter((product) => (Constants.STAGE[product.stage] == Constants.STAGE[1]))
+        setAllProducts(parseProducts);
+        break;
+      case Constants.ROLE[1]:
+        parseProducts = allProductsResponse.data.products.filter((product) => (Constants.STAGE[product.stage] != Constants.STAGE[2]))
+        setAllProducts(parseProducts);
+        break;
+      case Constants.ROLE[0]:
+        setAllProducts(allProductsResponse.data.products)
+        break;
+    }
   }
 
   const handleSearch = async () => {

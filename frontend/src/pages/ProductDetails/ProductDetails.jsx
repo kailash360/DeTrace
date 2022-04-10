@@ -7,6 +7,8 @@ import Constants from '../../Constants'
 import { useNavigate } from 'react-router-dom'
 import TimelineFeedItem from '../../components/TimelineFeedItem/TimelineFeedItem'
 import Loader from '../../components/Loader/Loader'
+import { styled } from '@mui/material/styles';
+import { CardMedia, Card } from '@mui/material'
 
 const ProductDetails = () => {
 
@@ -16,7 +18,6 @@ const ProductDetails = () => {
   const { account, role } = React.useContext(AuthContext)
   const [product, setProduct] = React.useState({})
   const [stage, setStage] = React.useState(Constants.ROLE[0])
-  console.log(product);
 
   const getProductDetails = async () => {
 
@@ -53,6 +54,7 @@ const ProductDetails = () => {
     navigate(role == Constants.ROLE[2] ? `/${role}/purchases` : `/${role}/inventory`)
   }
 
+
   React.useEffect(() => {
     getProductDetails()
   }, [account])
@@ -60,10 +62,16 @@ const ProductDetails = () => {
   return (product.details ?
     <Container>
       <Grid spacing={6} container justifyContent='center' alignItems='center' sx={{ m: 10 }}>
-        <Grid item md={4} sm={6} justifyContent='center'>
-          <Paper elevation={4}>
-            <img src={`https://ipfs.io/ipfs/${product.details.ipfs_hash}`} style={{ width: '400px' }} />
-          </Paper>
+        <Grid item md={4} sm={6}>
+          <Card style={{ boxShadow: '0 0 10px 0' }}>
+            <CardMedia
+              component="img"
+              height="300"
+              width="auto"
+              image={`https://ipfs.io/ipfs/${product.details.ipfs_hash}`}
+              alt={product.details.name}
+            />
+          </Card>
         </Grid>
         <Grid item md={8} sm={12}>
           <h1>Product Details</h1>
