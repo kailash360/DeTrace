@@ -1,3 +1,5 @@
+
+
 # DeTrace
 
 **DeTrace** is a decentralized supply chain management system that allows you to efficiently manage the product distribution chain efficiently yet easily. 
@@ -8,6 +10,22 @@
 - It also allows the users to commit financial transactions via Ethereum blockchain network. This makes the entire trade and commerce more secure and safe. 
 - The entire process of supply chain management is made digital which makes the operations and logistics run smoothly
 
+### Setting up locally
+
+- Clone the repository and install dependencies in the client using the following command 
+```sh
+cd client && npm install --dev
+```
+
+- Compile the contracts and deploy on **Ganache** lcoal testnet
+```sh
+truffle deploy --reset
+```
+
+- Start the client side
+```
+npm start
+```
 
 ### 🛠️ Technology & Tools
 - Solidity
