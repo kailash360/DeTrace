@@ -24,11 +24,14 @@ const TimelineFeedItem = ({ product, stage }) => {
         const response = await Services.getProductHistory(product.details.id)
         let date1 = new Date(parseInt(response.data.history[0].returnValues._time)).toLocaleString('hi')
         setManufacturedDate(date1);
-        // if(stage )
-        let date2 = new Date(parseInt(response.data.history[1].returnValues._time)).toLocaleString('hi')
-        setReleasedDate(date2);
-        let date3 = new Date(parseInt(response.data.history[2].returnValues._time)).toLocaleString('hi')
-        setSoldDate(date3);
+        if(stage != Constants.STAGE[0]){
+            let date2 = new Date(parseInt(response.data.history[1].returnValues._time)).toLocaleString('hi')
+            setReleasedDate(date2);
+        }
+        if(stage ==Constants.STAGE[2]){
+            let date3 = new Date(parseInt(response.data.history[2].returnValues._time)).toLocaleString('hi')
+            setSoldDate(date3);
+        }
         console.log({ response });
     }
 
