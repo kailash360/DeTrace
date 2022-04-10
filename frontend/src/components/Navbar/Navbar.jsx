@@ -14,10 +14,11 @@ import MenuItem from '@mui/material/MenuItem';
 import {Link} from 'react-router-dom'
 import {AuthContext} from '../../context/AuthContext'
 import { styled } from '@mui/material/styles';
+import Constants from '../../Constants'
 
 const ResponsiveAppBar = () => {
 
-  const {role} = React.useContext(AuthContext)
+  const { role, authenticated } = React.useContext(AuthContext)
 
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -40,24 +41,24 @@ const ResponsiveAppBar = () => {
   const navLinks = [
     {
         nav: 'Home',
-        route: '/'
-    },
-    {
+        route: '/',
+        isAuthenticated: false
+      },
+      {
         nav: 'Dashboard',
-        route: `/${role}/dashboard`
-    },
-    {
+        route: `/${role}/dashboard`,
+        isAuthenticated: true
+      },
+      {
         nav: 'Products',
-        route: `/${role}/products`
-    },
-    {
-        nav: 'Inventory',
-        route: `/${role}/inventory`
-    },
-    {
-        nav: 'My Purchases',
-        route: `/${role}/purchases`
-    },
+        route: `/${role}/products`,
+        isAuthenticated: true
+      },
+      {
+        nav: role ==  Constants.ROLE[2] ? 'My Purchases' : 'Inventory',
+        route: role ==  Constants.ROLE[2] ? `/${role}/purchases` : `/${role}/inventory`,
+        isAuthenticated: true
+    }
   ]
 
  const CustomLink = styled(Link)`
@@ -107,7 +108,7 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {navLinks.map((link) => (
+              {navLinks.map((link) => (link.isAuthenticated == authenticated &&
                 <MenuItem key={link.nav} onClick={handleCloseNavMenu}>
                   <Typography textAlign="center">{link.nav}</Typography>
                 </MenuItem>
@@ -123,7 +124,7 @@ const ResponsiveAppBar = () => {
             <Avatar src="/logo.png" alt="logo"/>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {navLinks.map((link) => (
+            {navLinks.map((link) => ( link.isAuthenticated == authenticated &&
               <Button
                 key={link.nav}
                 onClick={handleCloseNavMenu}

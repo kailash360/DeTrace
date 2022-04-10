@@ -299,7 +299,7 @@ contract DeTrace {
     address[] memory _retailer_addresses = Product_Retailers[_productId];
 
     //Initialize an empty reailters array
-    Retailer[] memory _retailers;
+    Retailer[] memory _retailers = new Retailer[](_product.total_retailers);
 
     //Get the manufacturer
     Manufacturer memory _manufacturer = getManufacturerDetails(_product.manufacturer);

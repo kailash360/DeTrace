@@ -4,24 +4,50 @@ import { AuthContext } from '../../context/AuthContext'
 import { ContractContext } from '../../context/ContractContext'
 import { useParams } from 'react-router-dom'
 import Constants from '../../Constants'
+import {useNavigate} from 'react-router-dom'
 
 const ProductDetails = () => {
 
   const params = useParams()
+  const navigate = useNavigate()
   const { Services } = React.useContext(ContractContext)
-  const { account } = React.useContext(AuthContext)
+  const { account, role } = React.useContext(AuthContext)
   const [product, setProduct] = React.useState({})
   const [stage, setStage] = React.useState(Constants.ROLE[0])
   console.log(product);
+
   const getProductDetails = async () => {
+
+    if(!account) return
+
     const productResponse = await Services.getProduct(params.product_id)
     console.log({ productResponse })
     setProduct(productResponse.data)
     setStage(Constants.STAGE[productResponse.data.details.stage]);
   }
 
-  const handleBuy = () => {
+  const handleBuy = async () => {
 
+    if(!product.details) return
+    console.log('Starting buy ', product)
+
+    let buyProductResponse;
+    switch(Constants.STAGE[product.details.stage]){
+      case Constants.STAGE[0]:
+        buyProductResponse = await Services.releaseProduct(params.product_id)
+        console.log({ buyProductResponse })
+        break;
+      case Constants.STAGE[1]:
+        buyProductResponse = await Services.buyProduct(params.product_id)
+        console.log({ buyProductResponse })
+        break;    
+      default:
+        console.log('Invalid stage ')
+    }
+    console.log({ buyProductResponse })
+    if(!buyProductResponse.success) return
+
+    navigate(role == Constants.ROLE[2]?`/${role}/purchases`: `/${role}/inventory`)
   }
 
   React.useEffect(() => {
@@ -70,7 +96,7 @@ const ProductDetails = () => {
               }
             </Grid>
             <Grid item>
-              <Button variant='contained' color="lightOrange" onClick={handleBuy}>Buy Product</Button>
+              { product.details.currentOwner.toLowerCase() != account && <Button variant='contained' color="lightOrange" onClick={handleBuy} type='button'>Buy Product</Button>}
             </Grid>
       </Grid>
     </Container>

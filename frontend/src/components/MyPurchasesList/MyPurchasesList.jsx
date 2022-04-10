@@ -11,8 +11,10 @@ const MyPurchasesList = () => {
   const [products, setProducts] = React.useState([])
 
   const getPurchases = async () => {
+
+    if(!account) return
     
-    const purchasesResponse = await Services.getPurchases(account)
+    const purchasesResponse = await Services.getCustomerOrders(account)
     if(!purchasesResponse.success) console.log(purchasesResponse.message)
 
     setProducts(purchasesResponse.data.products)

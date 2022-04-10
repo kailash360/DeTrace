@@ -145,11 +145,11 @@ function ContractContextProvider(props){
             }
         },
 
-        getCustomerInventory: async(_address)=>{
+        getCustomerOrders: async(_address)=>{
             try{
                 if(!state.DeTrace) return {success: true, data:{}}
     
-                const productIDList = await state.DeTrace.methods.getCustomerInventory(_address).call()
+                const productIDList = await state.DeTrace.methods.getCustomerOrders(_address).call()
     
                 let products = []
                 for await (let id of productIDList){
@@ -254,7 +254,8 @@ function ContractContextProvider(props){
         getAllProducts: async () => {
             try{
                 if(!state.DeTrace) return {success: true, data: {}}
-                const products = await state.DeTrace.methods.getProducts().call()
+                const allProducts = await state.DeTrace.methods.getProducts().call()
+                const products = allProducts.filter(product => product.currentOwner.toLowerCase() != account.toLowerCase())
                 return {success: true, data:{products}}
 
             }catch(err){
@@ -268,7 +269,7 @@ function ContractContextProvider(props){
                 if(!state.DeTrace) return {success: true, data: {}}
                 const allProducts = await state.DeTrace.methods.getProducts().call()
 
-                const products = allProducts.map(product => product.stage == _stage)
+                const products = allProducts.filter(product => product.stage == _stage)
                 return {success: true, data:{products}}
 
             }catch(err){
@@ -282,7 +283,7 @@ function ContractContextProvider(props){
                 if(!state.DeTrace) return {success: true, data: {}}
                 const allProducts = await state.DeTrace.methods.getProducts().call()
 
-                const products = allProducts.map(product => product.name == _name)
+                const products = allProducts.filter(product => product.name == _name)
                 return {success: true, data:{products}}
 
             }catch(err){
@@ -302,10 +303,13 @@ function ContractContextProvider(props){
                     gas: Constants.GAS
                 })
 
-                const transactionResponse = await web3.eth.sendTransaction({
-                    from: account,
-                    to: product.manufacturer,
-                    value: product.price
+                const transactionResponse = await window.ethereum.request({
+                    method: 'eth_sendTransaction',
+                    params: [{
+                        from: account,
+                        to: product.manufacturer,
+                        value: Web3.utils.toWei(product.price,'finney').toString()
+                    }]
                 })
                                 
                 return {success: true, data: {releaseProductResponse, transactionResponse}}
@@ -320,18 +324,21 @@ function ContractContextProvider(props){
                 if(!state.DeTrace) return {success: true, data: {}}
 
                 const product = await state.DeTrace.methods.products(_productId).call()
-                const retailers = await state.DeTrace.methods.Product_Retailers(_productId).call()
-                const currentRetailerAddress = retailers[retailers.length - 1]
+                const currentRetailerAddress = await state.DeTrace.methods.Product_Retailers(_productId, product.total_retailers - 1).call()
+                // const currentRetailerAddress = retailers[retailers.length - 1]
 
                 const buyProductResponse = await state.DeTrace.methods.buyProduct(_productId).send({
                     from: account,
                     gas: Constants.GAS
                 })
 
-                const transactionResponse = await web3.eth.sendTransaction({
-                    from: account,
-                    to: currentRetailerAddress,
-                    value: product.price
+                const transactionResponse = await window.ethereum.request({
+                    method: 'eth_sendTransaction',
+                    params: [{
+                        from: account,
+                        to: currentRetailerAddress,
+                        value: Web3.utils.toWei(product.price,'finney').toString()
+                    }]
                 })
                                 
                 return {success: true, data: {buyProductResponse, transactionResponse}}
