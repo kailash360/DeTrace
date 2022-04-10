@@ -70,8 +70,6 @@ const ProductDetails = () => {
           <p><b>Product Name:</b> {product.details.name}</p>
           <p><b>Price:</b> {product.details.price}</p>
           <p><b>Stage:</b> {Constants.STAGE[product.details.stage].charAt(0).toUpperCase() + Constants.STAGE[product.details.stage].slice(1)}</p>
-        </Grid>
-        <Grid item>
           {product.details.currentOwner.toLowerCase() != account && <Button variant='contained' color="lightOrange" onClick={handleBuy} type='button'>Buy Product</Button>}
         </Grid>
       </Grid>
