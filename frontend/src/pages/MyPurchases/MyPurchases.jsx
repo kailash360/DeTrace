@@ -13,8 +13,7 @@ const MyPurchases = () => {
   React.useEffect(() => {
     if(!account) return
 
-    if(role == Constants.ROLE[3]) navigate('/')
-    if(role != Constants.ROLE[2]) navigate(`/${role}/inventory`)
+    if(role != Constants.ROLE[2] && role != Constants.ROLE[3]) navigate(`/${role}/inventory`)
   },[account])
 
   return (
