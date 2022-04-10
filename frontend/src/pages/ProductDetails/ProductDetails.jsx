@@ -23,6 +23,7 @@ const ProductDetails = () => {
     const productResponse = await Services.getProduct(params.product_id)
     console.log({ productResponse })
     setProduct(productResponse.data)
+    console.log('Setting stage: ', productResponse.data.details.stage)
     setStage(Constants.STAGE[productResponse.data.details.stage]);
   }
 
@@ -75,18 +76,19 @@ const ProductDetails = () => {
                 <p><b>Address:</b> {product.manufacturer.id}</p>
               </Grid>
               {
-                stage == Constants.ROLE[1] ?
+                stage == Constants.STAGE[1] || stage == Constants.STAGE[2]?
                   <Grid item md={8} sm={12}>
                     <h1>Retailers</h1>
-                    {product.retailers.map(product => <li>
-                      <p><b>Name:</b> {product.manufacturer.name}</p>
-                      <p><b>Address:</b> {product.manufacturer.id}</p>
+                    {product.retailers.map((retailer, index) => 
+                    <li>{index+1}
+                      <p><b>Name:</b> {retailer.name}</p>
+                      <p><b>Address:</b> {retailer.id}</p>
                     </li>
                     )}
                   </Grid>
                   : ''}
               {
-                stage == Constants.ROLE[1] ?
+                stage == Constants.STAGE[2] ?
                   <Grid item md={8} sm={12}>
                     <h1>Customer</h1>
                     <p><b>Name:</b> {product.customer.name}</p>
