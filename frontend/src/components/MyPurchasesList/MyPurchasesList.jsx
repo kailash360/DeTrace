@@ -3,6 +3,7 @@ import ProductListTemplate from '../ProductListTemplate/ProductListTemplate';
 import { AuthContext } from '../../context/AuthContext'
 import { ContractContext } from '../../context/ContractContext'
 import Loader from '../Loader/Loader'
+import EmptyPurchaseList from '../EmptyListText/EmptyPuchaseList/EmptyPurchaseList';
 
 const MyPurchasesList = () => {
 
@@ -30,7 +31,7 @@ const MyPurchasesList = () => {
   return (isLoading? <Loader></Loader>:
     products.length ?
       <ProductListTemplate title={'My Purchases'} productList={products} />
-    : <p>No purchases yet</p>
+    : <EmptyPurchaseList />
   )
 }
 
