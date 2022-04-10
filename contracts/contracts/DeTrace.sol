@@ -25,6 +25,7 @@ contract DeTrace {
     address manufacturer;
     uint total_retailers;
     address customer;
+    address currentOwner;
   }
 
   struct Manufacturer{
@@ -152,6 +153,7 @@ contract DeTrace {
     _product.manufacturer = _manufacturer.id;
     _product.stage = Stage.manufactured;
     _product.total_retailers = 0;
+    _product.currentOwner = msg.sender;
 
     //add the product to records
     products.push(_product);
@@ -184,6 +186,7 @@ contract DeTrace {
     Product_Retailers[_productId].push(msg.sender);
     _product.total_retailers++;
     _product.stage = Stage.released;
+    _product.currentOwner = msg.sender;
 
     //Remove the element from the inventory of manufacturer and update count
     Manufacturer memory _manufacturer = manufacturers[_product.manufacturer];
@@ -230,6 +233,7 @@ contract DeTrace {
     //Shift ownership from retailer to customer
     _product.stage = Stage.sold;
     _product.customer = _customer.id;
+    _product.currentOwner = msg.sender;
   
     //Remove the element from the inventory of retailer and update count
     address _current_retailer_address = Product_Retailers[_productId][Product_Retailers[_productId].length - 1];
