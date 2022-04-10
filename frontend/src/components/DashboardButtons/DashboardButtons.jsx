@@ -10,9 +10,9 @@ function DashboardButtons() {
   const { role } = React.useContext(AuthContext)
 
   return (
-    <Stack spacing={1}>
-      <Button variant='outlined' onClick={()=>{navigate(`/${role}/products`)}} >Explore all products</Button>
-      <Button variant='outlined' onClick={()=>{navigate(`/${role}/${role == Constants.ROLE[2] ? 'purchases' : 'inventory' }`)}} >See my products</Button>
+    <Stack spacing={1} xs={{}}>
+      <Button color='orange' variant='outlined' onClick={()=>{navigate(`/${role}/products`)}} >Explore all products</Button>
+      <Button color='orange' variant='outlined' onClick={()=>{navigate(`/${role}/${role == Constants.ROLE[2] ? 'purchases' : 'inventory' }`)}} >See my products</Button>
     </Stack>
   )
 

@@ -13,7 +13,7 @@ const theme = {
         lightOrange: {
             main: deepOrange[400]
         },
-        white: {
+        lightGrey: {
             main: grey[100]
         }
     },
